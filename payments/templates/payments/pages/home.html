@@ -1,1 +1,39 @@
-<h1>Home page</h1>
+{% extends 'base.html' %}
+{% block title %}Home {% endblock title %}
+{% block body %}
+<body>
+    <section>
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="https://i.imgur.com/HGJaWYO.jpeg" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            {% for price in prices %}
+                                <form action="{% url 'payments:create-checkout-session' price.id %}" method="POST">
+                                {% csrf_token %}
+                                    <p class="card-text">
+                                        <small class="text-muted">R$ {{ price.get_display_price }}</small>
+                                                    <button type="submit"  class="btn btn-outline-success">Checkout</button>
+                                    </p>
+                                </form>
+                             {% endfor %}
+                            </div>
+                        </div>
+                </div>
+            </div>
+    </section>
+</body>
+<style>
+    section{
+        display:flex;
+        justify-content: center;
+    }
+    .card{
+        padding: 10px;
+        margin: 50px
+    }
+</style>
+{% endblock body %}
